@@ -27,6 +27,26 @@ public class RegisterServiceImpl implements IRegisterService {
 
     @Override
     public void register(UserDto userDto) {
+
+        if(userDto.getPhotoUrl() == null || userDto.getPhotoUrl().isEmpty()){
+            throw new RuntimeException("Photo is required");
+        }
+
+        String contentType = userDto.getPhotoUrl().getContentType();
+
+        if(contentType == null ||
+                !(contentType.equals("image/jpeg") ||
+                        contentType.equals("image/png") ||
+                        contentType.equals("image/jpg"))){
+            throw new RuntimeException("Only JPG, JPEG, PNG images are allowed");
+        }
+
+        long maxSize = 2 * 1024 * 1024;
+
+        if (userDto.getPhotoUrl().getSize() > maxSize) {
+            throw new RuntimeException("Image size must not exceed 2 MB");
+        }
+
         Optional<Users> optionalUser = userRepository.findByEmail(userDto.getEmail());
         if(optionalUser.isPresent()){
             throw new UserAlreadyExistsException("User already registered with the given email");
