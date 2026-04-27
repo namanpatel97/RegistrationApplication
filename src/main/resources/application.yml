@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: register
+  datasource:
+    url: jdbc:mysql://localhost:3306/banking_db
+    username: root
+    password: Mummy@123
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+gcs:
+  bucket:
+    name: your-bucket-name
