@@ -27,7 +27,7 @@ public class RegisterController {
     }
 
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDto>register(@Valid @RequestBody UserDto userDto){
         registerService.register(userDto);
         return ResponseEntity
