@@ -7,6 +7,7 @@ import com.record.register.gcs.GcsStorageService;
 import com.record.register.mapper.UserMapper;
 import com.record.register.repository.UserRepository;
 import com.record.register.service.IRegisterService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class RegisterServiceImpl implements IRegisterService {
     }
 
     @Override
+    @Transactional
     public void register(UserDto userDto) {
 
         if(userDto.getPhotoUrl() == null || userDto.getPhotoUrl().isEmpty()){

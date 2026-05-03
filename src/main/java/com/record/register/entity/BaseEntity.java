@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class BaseEntity {
 
     @CreatedBy
-    private String createdBy;
+    private Long createdBy;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -26,11 +26,11 @@ public class BaseEntity {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
