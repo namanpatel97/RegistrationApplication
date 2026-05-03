@@ -59,9 +59,14 @@ public class RegisterServiceImpl implements IRegisterService {
 
         String encode = passwordEncoder.encode(userDto.getPassword());
 
+        String uploadedFile = gcsStorageService.uploadFile(userDto.getPhotoUrl());
+
         Users user = UserMapper.mapToUsers(userDto, new Users());
         user.setRole("USER");
         user.setStatus("PENDING");
         user.setPassword(encode);
+        user.setPhotoUrl(uploadedFile);
+
+        userRepository.save(user);
     }
 }
