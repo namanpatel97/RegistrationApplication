@@ -166,7 +166,6 @@ public class Users extends BaseEntity{
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
-                ", password='" + password + '\'' +
                 ", photoUrl='" + photoUrl + '\'' +
                 ", role='" + role + '\'' +
                 ", status='" + status + '\'' +

@@ -6,11 +6,12 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@EntityListeners(EntityListeners.class)
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
     @CreatedBy
@@ -20,10 +21,10 @@ public class BaseEntity {
     private LocalDateTime createdAt;
 
     @LastModifiedBy
-    private String updatedBy;
+    private Long updatedBy;
 
     @LastModifiedDate
-    private String updatedAt;
+    private LocalDateTime updatedAt;
 
     public String getCreatedBy() {
         return createdBy;
@@ -41,19 +42,19 @@ public class BaseEntity {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedBy() {
+    public Long getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(Long updatedBy) {
         this.updatedBy = updatedBy;
     }
 
-    public String getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

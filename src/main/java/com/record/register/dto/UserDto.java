@@ -88,7 +88,6 @@ public class UserDto {
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
-                ", password='" + password + '\'' +
                 ", photoUrl='" + photoUrl + '\'' +
                 '}';
     }

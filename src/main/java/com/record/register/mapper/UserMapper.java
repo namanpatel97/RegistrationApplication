@@ -7,18 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserMapper {
 
-    private static GcsStorageService gcsStorageService;
-
 
     public static Users mapToUsers(UserDto userDto, Users users){
-
-        String uploadedFile = gcsStorageService.uploadFile(userDto.getPhotoUrl());
-
 
         users.setName(userDto.getName());
         users.setEmail(userDto.getEmail());
         users.setMobileNumber(userDto.getMobileNumber());
-        users.setPhotoUrl(uploadedFile);
         return users;
     }
 }
