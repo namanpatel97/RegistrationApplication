@@ -2,9 +2,12 @@ package com.record.register.controller;
 
 
 import com.record.register.constants.RegisterConstants;
+import com.record.register.dto.LoginRequestDto;
+import com.record.register.dto.LoginResponse;
 import com.record.register.dto.ResponseDto;
 import com.record.register.dto.UserDto;
 import com.record.register.service.IRegisterService;
+import com.record.register.service.impl.RegisterServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,5 +36,15 @@ public class RegisterController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto(RegisterConstants.STATUS_201, RegisterConstants.MESSAGE_201));
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<LoginResponse>login(@RequestBody LoginRequestDto loginRequestDto){
+
+        LoginResponse response = registerService.login(loginRequestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 }
