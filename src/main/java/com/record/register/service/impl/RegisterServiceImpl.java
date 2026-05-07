@@ -1,11 +1,14 @@
 package com.record.register.service.impl;
 
+import com.record.register.dto.LoginRequestDto;
+import com.record.register.dto.LoginResponse;
 import com.record.register.dto.UserDto;
 import com.record.register.entity.Users;
 import com.record.register.exception.UserAlreadyExistsException;
 import com.record.register.gcs.GcsStorageService;
 import com.record.register.mapper.UserMapper;
 import com.record.register.repository.UserRepository;
+import com.record.register.security.JwtUtil;
 import com.record.register.service.IRegisterService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,11 +22,13 @@ public class RegisterServiceImpl implements IRegisterService {
     public final UserRepository userRepository;
     public final GcsStorageService gcsStorageService;
     public final PasswordEncoder passwordEncoder;
+    public final JwtUtil jwtUtil;
 
-    public RegisterServiceImpl(UserRepository userRepository, GcsStorageService gcsStorageService, PasswordEncoder passwordEncoder){
+    public RegisterServiceImpl(UserRepository userRepository, GcsStorageService gcsStorageService, PasswordEncoder passwordEncoder, JwtUtil jwtUtil){
         this.gcsStorageService = gcsStorageService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -71,4 +76,26 @@ public class RegisterServiceImpl implements IRegisterService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public LoginResponse login(LoginRequestDto request) {
+
+        Users user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new RuntimeException("Email doesn't exists")
+        );
+
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
+            throw new RuntimeException("Password does not match");
+        }
+
+        String token = jwtUtil.generateToken(
+                user.getUserId(),
+                user.getRole(),
+                user.getEmail()
+        );
+
+        return new LoginResponse(token, "Bearer ");
+    }
+
+
 }
