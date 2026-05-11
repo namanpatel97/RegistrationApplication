@@ -14,15 +14,16 @@ import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class RegisterServiceImpl implements IRegisterService {
 
-    public final UserRepository userRepository;
-    public final GcsStorageService gcsStorageService;
-    public final PasswordEncoder passwordEncoder;
-    public final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
+    private final GcsStorageService gcsStorageService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public RegisterServiceImpl(UserRepository userRepository, GcsStorageService gcsStorageService, PasswordEncoder passwordEncoder, JwtUtil jwtUtil){
         this.gcsStorageService = gcsStorageService;
@@ -78,6 +79,7 @@ public class RegisterServiceImpl implements IRegisterService {
     }
 
     @Override
+    @Transactional
     public LoginResponse login(LoginRequestDto request) {
 
         Users user = userRepository.findByEmail(request.getEmail()).orElseThrow(
@@ -88,10 +90,13 @@ public class RegisterServiceImpl implements IRegisterService {
             throw new RuntimeException("Password does not match");
         }
 
+        user.setLastLoginAt(LocalDateTime.now());
+        userRepository.save(user);
+
         String token = jwtUtil.generateToken(
                 user.getUserId(),
-                user.getRole(),
-                user.getEmail()
+                user.getEmail(),
+                user.getRole()
         );
 
         return new LoginResponse(token, "Bearer ");
