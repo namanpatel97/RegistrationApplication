@@ -6,6 +6,7 @@ import com.google.cloud.storage.Storage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,8 @@ import java.util.UUID;
 public class GcsStorageServiceImpl implements GcsStorageService{
 
     private static final Logger log = LoggerFactory.getLogger(GcsStorageServiceImpl.class);
+
+
     private final Storage storage;
 
     @Value("${gcs.bucket.name}")

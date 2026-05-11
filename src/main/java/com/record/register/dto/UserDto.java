@@ -25,7 +25,7 @@ public class UserDto {
     )
     private String mobileNumber;
 
-    @NotBlank(message = "Mobile number cannot be null or empty")
+    @NotBlank(message = "Password cannot be null or empty")
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&^#()_+\\-={}\\[\\]:;<>,./]).{8,20}$",
             message = "Password must be 8-20 characters and contain uppercase, lowercase, number, and special character"
